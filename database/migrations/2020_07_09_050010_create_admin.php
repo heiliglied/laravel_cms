@@ -21,6 +21,8 @@ class CreateAdmin extends Migration
 			$table->string('name', 80);
 			$table->string('email', 80)->nullable();
 			$table->string('contact', 24)->nullable();
+			$table->string('remember_token', 192)->nullable();
+			$table->string('email_verified_at', 192)->nullable();
 			$table->timestamps();
         });
     }
