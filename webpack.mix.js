@@ -11,5 +11,17 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css');
+let scripts = [
+	'jquery', 
+	'bootstrap',
+	'popper.js',
+	'axios'
+];
+
+let autoload = [
+	{'jquery': ['$', 'jQuery', 'window.$', 'window.jQuery', 'jquery']},
+];
+
+mix.js('resources/js/app.js', 'public/js/app.js');
+mix.extract(scripts, 'public/js/vendor');
+mix.autoload(autoload);
