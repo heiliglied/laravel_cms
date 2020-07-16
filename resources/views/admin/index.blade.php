@@ -14,12 +14,9 @@ class="hold-transition sidebar-mini layout-fixed"
 </div>
 @endsection
 @section('scripts')
-<script src="/manifest.js"></script>
+<script src="/js/manifest.js"></script>
 <script src="/js/vendor.js"></script>
 <script src="/js/app.js"></script>
 <script>
-$(document).ready(function(){
-	alert('jquery test');
-});
 </script>
 @endsection
