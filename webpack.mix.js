@@ -12,10 +12,10 @@ const mix = require('laravel-mix');
  */
 
 let scripts = [
-	'jquery', 
-	'bootstrap',
+	'jquery',
+	'axios',
+	'jquery-ui',
 	'popper.js',
-	'axios'
 ];
 
 let autoload = [
@@ -23,5 +23,7 @@ let autoload = [
 ];
 
 mix.js('resources/js/app.js', 'public/js/app.js');
+mix.js(['node_modules/bootstrap/dist/js/bootstrap.bundle.min.js'], 'public/js/bootstrap.bundle.min.js');
+mix.sass('resources/sass/app.scss', 'public/css/app.css');
 mix.extract(scripts, 'public/js/vendor');
 mix.autoload(autoload);

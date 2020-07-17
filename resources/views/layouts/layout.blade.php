@@ -6,9 +6,12 @@
 	<title>@yield('title', 'hungrysorrow')</title>
 	<!-- Tell the browser to be responsive to screen width -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	@yield('heads')
 </head>
 <body @yield('body_class')>
 @yield('contents')
-</body>
+
 @yield('scripts')
+</body>
+
 </html>
