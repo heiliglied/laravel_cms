@@ -18,5 +18,15 @@ Route::get('/', function () {
 });
 
 Route::group(['prefix' => 'admin'], function(){
-	Route::get('/', 'Admin\IndexController@index');
+	//비로그인 상태에서 접근.
+	Route::get('login', 'Admin\Auth\LoginController@login')->name('adminLogin');
+	Route::get('logout', 'Admin\Auth\LoginController@logout')->name('adminLogout');
+	
+	Route::get('regist', 'Admin\Auth\RegisterController@regist')->name('adminRegist');
+	Route::post('signIn', 'Admin\Auth\RegisterController@signIn')->name('adminSignIn');
+	
+	//인증 미들웨어 확인
+	Route::group(['middleware' => ['auth:admin']], function() {
+		Route::get('/', 'Admin\IndexController@index');
+	});
 });
