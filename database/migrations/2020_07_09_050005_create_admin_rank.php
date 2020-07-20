@@ -14,7 +14,7 @@ class CreateAdminRank extends Migration
     public function up()
     {
         Schema::create('admin_rank', function (Blueprint $table) {
-            $table->unsignedTinyInteger('rank');
+            $table->unsignedTinyInteger('rank')->unique();
             $table->string('name', 64);
         });
     }

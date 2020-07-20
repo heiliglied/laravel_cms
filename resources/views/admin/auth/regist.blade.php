@@ -65,10 +65,16 @@ input:focus { box-shadow: inset 0 -5px 45px rgba(100,100,100,0.4), 0 1px 1px rgb
 <body>
 <div class="login">
 	<h1>Register</h1>
-    <form method="post" name="register_form" action="/admin/siginIn">
+    <form method="post" name="register_form" action="/admin/signIn">
+		{{ csrf_field() }}
     	<input type="text" name="user_id" placeholder="Username" required="required" value="{{ old('user_id') }}" />
         <input type="password" name="password" placeholder="Password" required="required" />
 		<input type="password" name="password_confirmation" placeholder="Re-Password" required="required" />
+		@if(count($errors) > 0)
+			@foreach($errors->all() as $error)
+			<span style="color: white">{{ $error }}</span>
+			@endforeach
+		@endif
         <button type="submit" class="btn btn-primary btn-block btn-large">Sign in.</button>
     </form>
 </div>
