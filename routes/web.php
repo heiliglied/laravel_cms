@@ -21,12 +21,16 @@ Route::group(['prefix' => 'admin'], function(){
 	//비로그인 상태에서 접근.
 	Route::get('login', 'Admin\Auth\LoginController@login')->name('adminLogin');
 	Route::get('logout', 'Admin\Auth\LoginController@logout')->name('adminLogout');
+	Route::post('signIn', 'Admin\Auth\LoginController@signIn')->name('adminSignIn');
 	
 	Route::get('regist', 'Admin\Auth\RegisterController@regist')->name('adminRegist');
-	Route::post('signIn', 'Admin\Auth\RegisterController@signIn')->name('adminSignIn');
+	Route::post('signUp', 'Admin\Auth\RegisterController@signUp')->name('adminSignUp');
 	
 	//인증 미들웨어 확인
 	Route::group(['middleware' => ['auth:admin']], function() {
 		Route::get('/', 'Admin\IndexController@index');
 	});
 });
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

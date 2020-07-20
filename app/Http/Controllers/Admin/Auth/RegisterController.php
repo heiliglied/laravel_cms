@@ -26,7 +26,7 @@ class RegisterController extends Controller
 		}
 	}
 	
-	protected function signIn(Request $request)
+	protected function signUp(Request $request)
 	{
 		$validCheck = $this->validator($request);
 		
