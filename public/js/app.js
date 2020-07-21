@@ -21863,6 +21863,12 @@ module.exports = function(module) {
 
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
+window.integerCheck = function (obj) {
+  var value = obj.value;
+  var regex = /[^0-9]/gi;
+  obj.value = value.replace(regex, "");
+};
+
 /***/ }),
 
 /***/ "./resources/js/bootstrap.js":

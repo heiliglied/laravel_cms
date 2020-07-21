@@ -29,6 +29,12 @@ Route::group(['prefix' => 'admin'], function(){
 	//인증 미들웨어 확인
 	Route::group(['middleware' => ['auth:admin']], function() {
 		Route::get('/', 'Admin\IndexController@index');
+		
+		Route::group(['prefix' => 'settings'], function(){
+			Route::get('/rank', 'Admin\RankController@list');
+			Route::get('/rank/write', 'Admin\RankController@write');
+			Route::post('/rank/create', 'Admin\RankController@create')->name('rankCreate');
+		});
 	});
 });
 Auth::routes();
