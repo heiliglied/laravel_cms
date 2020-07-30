@@ -16,6 +16,8 @@ let scripts = [
 	'axios',
 	'jquery-ui',
 	'popper.js',
+	'vue',
+	'noty',
 ];
 
 let autoload = [
@@ -23,7 +25,7 @@ let autoload = [
 ];
 
 mix.js('resources/js/app.js', 'public/js/app.js');
-mix.js(['node_modules/bootstrap/dist/js/bootstrap.bundle.min.js'], 'public/js/bootstrap.bundle.min.js');
+mix.js(['node_modules/bootstrap/dist/js/bootstrap.bundle.min.js'], 'public/js/bootstrap.bundle.min.js').sourceMaps();
 mix.sass('resources/sass/app.scss', 'public/css/app.css');
-mix.extract(scripts, 'public/js/vendor');
+mix.extract(scripts, 'public/js/vendor').sourceMaps();
 mix.autoload(autoload);

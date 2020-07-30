@@ -70,7 +70,7 @@ input:focus { box-shadow: inset 0 -5px 45px rgba(100,100,100,0.4), 0 1px 1px rgb
     	<input type="text" name="user_id" placeholder="Username" required="required" value="{{ old('user_id') }}" />
         <input type="password" name="password" placeholder="Password" required="required" />
 		<label>
-		<input type="checkbox" name="" value="" style="width: auto;"> <span style="color: white">Remember Me.</span>
+		<input type="checkbox" name="remember" style="width: auto;"> <span style="color: white">Remember Me.</span>
 		</label>
 		<br/>
 		@if(count($errors) > 0)

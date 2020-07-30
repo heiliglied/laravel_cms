@@ -33,10 +33,15 @@ Route::group(['prefix' => 'admin'], function(){
 		Route::group(['prefix' => 'settings'], function(){
 			Route::get('/rank', 'Admin\RankController@list');
 			Route::get('/rank/write', 'Admin\RankController@write');
-			Route::post('/rank/create', 'Admin\RankController@create')->name('rankCreate');
+		});
+		
+		Route::group(['prefix' => 'ajax'], function(){
+			Route::get('/rankList', 'Ajax\RankController@getList');
+			Route::post('/rankInsert', 'Ajax\RankController@insert');
+			Route::delete('/rankDelete', 'Ajax\RankController@delete');
+			Route::patch('/rankUpdate', 'Ajax\RankController@update');
 		});
 	});
 });
-Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Auth::routes();

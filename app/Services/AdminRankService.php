@@ -17,7 +17,28 @@ class AdminRankService
 		return self::$instance;
 	}
 	
-	function createRank(array $data) {
-		return AdminRank::create($data);
+	function getTotalRecordCount()
+	{
+		return AdminRank::count();
+	}
+	
+	function createRank(array $data)
+	{
+		return AdminRank::insert($data);
+	}
+	
+	function getList(int $page, int $limit)
+	{
+		return AdminRank::where('rank', '>', 0)->skip(($page - 1 * $limit))->take($limit)->orderBy('rank', 'asc')->get();
+	}
+	
+	function deleteRank(int $rank)
+	{
+		return AdminRank::where('rank', $rank)->delete();
+	}
+	
+	function updateRank(int $rank, String $name)
+	{
+		return AdminRank::where('rank', $rank)->update(['name' => $name]);
 	}
 }

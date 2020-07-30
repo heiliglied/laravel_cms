@@ -5,3 +5,11 @@ window.integerCheck = function(obj) {
 	var regex = /[^0-9]/gi;
 	obj.value = value.replace(regex, "");
 };
+
+window.showNoty = function(text, type, layout) {
+	return new Noty({
+		type: type,
+		layout: layout,
+		text: text,
+	}).show();
+}
