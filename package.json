@@ -27,6 +27,7 @@
         "@fortawesome/fontawesome-free": "^5.14.0",
         "bootstrap": "^4.5.0",
         "css-loader": "^3.6.0",
+        "datatables.net-bs4": "^1.10.21",
         "jquery": "^3.5.1",
         "jquery-ui": "^1.12.1",
         "noty": "^3.2.0-beta",

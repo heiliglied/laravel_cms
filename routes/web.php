@@ -31,15 +31,20 @@ Route::group(['prefix' => 'admin'], function(){
 		Route::get('/', 'Admin\IndexController@index');
 		
 		Route::group(['prefix' => 'settings'], function(){
-			Route::get('/rank', 'Admin\RankController@list');
-			Route::get('/rank/write', 'Admin\RankController@write');
+			Route::get('/rank', 'Admin\Settings\RankController@list');
+			Route::get('/member', 'Admin\Settings\MemberController@adminList');
+			Route::get('/member/write', 'Admin\Settings\MemberController@adminWrite');
+			Route::post('/member/create', 'Admin\Settings\MemberController@adminCreate');
 		});
 		
 		Route::group(['prefix' => 'ajax'], function(){
-			Route::get('/rankList', 'Ajax\RankController@getList');
-			Route::post('/rankInsert', 'Ajax\RankController@insert');
-			Route::delete('/rankDelete', 'Ajax\RankController@delete');
-			Route::patch('/rankUpdate', 'Ajax\RankController@update');
+			Route::get('/rankList', 'Ajax\AdminRankController@getList');
+			Route::post('/rankInsert', 'Ajax\AdminRankController@insert');
+			Route::delete('/rankDelete', 'Ajax\AdminRankController@delete');
+			Route::patch('/rankUpdate', 'Ajax\AdminRankController@update');
+			
+			Route::post('/idCheck', 'Ajax\AdminMemberController@idCheck');
+			Route::get('/adminList', 'Ajax\AdminMemberController@adminList');
 		});
 	});
 });

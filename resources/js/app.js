@@ -6,10 +6,11 @@ window.integerCheck = function(obj) {
 	obj.value = value.replace(regex, "");
 };
 
-window.showNoty = function(text, type, layout) {
+window.showNoty = function(text, type, layout, timeout) {
 	return new Noty({
 		type: type,
 		layout: layout,
 		text: text,
+		timeout: timeout,
 	}).show();
 }

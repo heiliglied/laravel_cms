@@ -5,7 +5,7 @@ Admin
 @endsection
 
 @section('heads')
-<link rel="stylesheet" type="text/css" href="/css/app.css" />
+<link rel="stylesheet" type="text/css" href="/mix/css/app.css" />
 <link rel="stylesheet" type="text/css" href="/plugin/adminlte/dist/css/adminlte.min.css" />
 <style>
 [v-cloak] {
@@ -67,7 +67,7 @@ class="hold-transition sidebar-mini layout-fixed"
 											<td align="center">
 												<button type="button" class="btn btn-primary btn-sm" style="cursor: pointer" v-on:click="rankModify(items.rank, items.name)">수정</button>
 												&nbsp;
-												<button type="button" class="btn btn-danger btn-sm" style="cursor: pointer" v-on:click="rankDelete(items.rank)">삭제</button>
+												<button type="button" class="btn btn-danger btn-sm" style="cursor: pointer" v-on:click="deleteConfirm(items.rank)">삭제</button>
 											</td>
 										</tr>
 									</tbody>
@@ -134,13 +134,14 @@ class="hold-transition sidebar-mini layout-fixed"
 </div>
 @include('layouts.admin.footer')
 @include('layouts.admin.righttoggle')
+@include('templates.confirm', ['confirm_title' => '등급 설정', 'confirm_body' => '등급을 삭제하시겠습니까?'])
 @endsection
 
 @section('scripts')
-<script src="/js/manifest.js"></script>
-<script src="/js/vendor.js"></script>
-<script src="/js/app.js"></script>
-<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/mix/js/manifest.js"></script>
+<script src="/mix/js/vendor.js"></script>
+<script src="/mix/js/app.js"></script>
+<script src="/mix/js/bootstrap.bundle.min.js"></script>
 <script src="/plugin/adminlte/dist/js/adminlte.min.js"></script>
 <script>
 const rank = new Vue({
@@ -167,10 +168,10 @@ const rank = new Vue({
 		writeRank: () => {
 			this.rank = document.getElementsByName('rank')[0].value;
 			this.name = document.getElementsByName('name')[0].value;
-			this.write_mode = document.getElementsByName('write_mode')[0].value;
+			this.write_mode = 'insert';
 			
 			if(rank.rankCheck() == 'name_invalid') {
-				showNoty('등록명을 입력해 주세요.', 'warning', 'bottomRight');
+				showNoty('등록명을 입력해 주세요.', 'warning', 'bottomRight', 3000);
 				return false;
 			}
 			
@@ -182,10 +183,10 @@ const rank = new Vue({
 				let return_message = response.data;
 				
 				if(return_message == 'duplicate') {
-					showNoty('이미 등록된 랭크입니다.', 'warning', 'bottomRight');
+					showNoty('이미 등록된 랭크입니다.', 'warning', 'bottomRight', 3000);
 					return false;
 				} else if(return_message == 'error') {
-					showNoty('오류가 발생하였습니다.', 'error', 'bottomRight');
+					showNoty('오류가 발생하였습니다.', 'error', 'bottomRight', 3000);
 					return false;
 				}
 				
@@ -198,14 +199,19 @@ const rank = new Vue({
 				return 'name_invalid';
 			}
 		},
-		rankDelete: (key) => {
+		deleteConfirm: (key) => {
+			this.rank = key;
+			$("#confirm_modal").modal('show');
+		},
+		
+		rankDelete: () => {
 			axios.delete('/admin/ajax/rankDelete', {
 				data: {
-					rank: key,
+					rank: this.rank,
 				}
 			}).then((response)=>{
 				if(response.data != 'success') {
-					showNoty('오류가 발생하였습니다.', 'error', 'bottomRight');
+					showNoty('오류가 발생하였습니다.', 'error', 'bottomRight', 3000);
 					return false;
 				}
 				rank.getRankList(1);
@@ -234,7 +240,7 @@ const rank = new Vue({
 				let return_message = response.data;
 				
 				if(return_message == 'error') {
-					showNoty('오류가 발생하였습니다.', 'error', 'bottomRight');
+					showNoty('오류가 발생하였습니다.', 'error', 'bottomRight', 3000);
 					return false;
 				}
 				
@@ -246,5 +252,10 @@ const rank = new Vue({
 		}
 	},
 });
+
+function confirmed() {
+	rank.rankDelete();
+	$("#confirm_modal").modal('hide');
+}
 </script>
 @endsection

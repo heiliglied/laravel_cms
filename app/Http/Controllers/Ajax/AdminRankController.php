@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Services\AdminRankService;
 use App\Traits\Pagination;
 
-class RankController extends Controller
+class AdminRankController extends Controller
 {
 	use Pagination;
 	

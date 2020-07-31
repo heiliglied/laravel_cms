@@ -1,79 +1,51 @@
-<p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
+# 라라벨 기본 페이지 작성.
+-----------------
+## 기본 소스 작성 가이드.
+-----------------
+1. routing
+ - 기본 라우팅 구성은 routes/web.php에서 작성.
+ - 같은 prefix를 지닌 router가 많을 경우 반드시 group으로 묶어 분류 한다.
+ - router 별칭은, 비동기를 사용하지 않을 경우에만 사용한다. javascript파일을 별도 분리할 경우 mustache 템플릿 이상동작이 우려됨.
+ 
+2. static 파일.
+ - 기본은 laravel-mix를 이용하여 webpack.mix.js 파일에 구성한다.
+ - 반드시 사전에 읽어와야 할 라이브러리일 경우 vendor에 기본으로 읽어오도록 추가한다.
+ - es6를 이용할 경우 반드시 mix.babel을 이용하여 웹 호환성을 유지해 주어야 한다.
+ - 공통 라이브러리와, 페이지별 전용 스크립트는 반드시 분류해 주어야 한다.
+ 
+3. view 파일.
+ - 각 용도에 맞도록 별도의 폴더로 반드시 구분한다.
+ - 별도의 기준이 없을 시, 신규로 폴더를 생성하여 사용한다.
+ - errors 폴더는 라라벨이 기본으로 제공하는 에러페이지 이므로, 별도로 필요할 시 http 에러코드명으로 생성한다(ex:419.blade.php)
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
-
-## About Laravel
-
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
-
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
-- [Appoly](https://www.appoly.co.uk)
-- [OP.GG](https://op.gg)
-- [云软科技](http://www.yunruan.ltd/)
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+4. controller.
+ - 기본 Controller 이외에는 전부 각 분류별로 폴더를 생성한다.
+ - 사용하지 않더라도 __construct() 매직 메소드는 생성해 둔다.
+ - 되도록 미들웨어 필터링은 router에서 사용하도록 한다.
+ 
+5. model.
+ - 인증에 필요한 인증용 model을 제외하고는 전부 Models 폴더에 생성한다.
+ 
+6. interface, traits.
+ - 각 인터페이스 및 trait 파일을 모아둔다.
+ 
+7. Services.
+ - ORM등 쿼리 작업 파일들을 이쪽에서 모아 처리한다.
+ 
+8. table schema.
+ - database/migration 폴더에 table 스키마 소스 작성해서 artisan 명령어로 관리한다. 
+ 
+9. 다국어 지원.
+ - resources/lang 폴더에 ko폴더를 만든 후, 기본값인 en폴더의 파일을 복사해서, 필요한 값을 한글로 치환한 후 사용.
+ 
+## 관리자 페이지 작성 가이드.
+--------------------
+1. 인증.
+ - config/auth.php 에 admin guard, provider 추가 후, 별도의 admin 인증 추가함.
+ - auth 미들웨어에 별도로 auth:admin 으로 관리자 인증 분리함.
+ 
+2. 컨트롤러.
+ - view 페이지 작성시 interfaces의 AsideMenuInterface를 상속하여, activeMenuList를 구현해 줌.
+ - active 상태의 메뉴값을 전달하셔 사용함.
+ - activeMenuList로 구현해서 반환받은 메뉴값을 변수로 view에 전달해야 함.
+ 

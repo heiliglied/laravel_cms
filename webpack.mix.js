@@ -24,8 +24,10 @@ let autoload = [
 	{'jquery': ['$', 'jQuery', 'window.$', 'window.jQuery', 'jquery']},
 ];
 
-mix.js('resources/js/app.js', 'public/js/app.js');
-mix.js(['node_modules/bootstrap/dist/js/bootstrap.bundle.min.js'], 'public/js/bootstrap.bundle.min.js').sourceMaps();
-mix.sass('resources/sass/app.scss', 'public/css/app.css');
-mix.extract(scripts, 'public/js/vendor').sourceMaps();
+mix.js('resources/js/app.js', 'public/mix/js/app.js');
+mix.js(['node_modules/bootstrap/dist/js/bootstrap.bundle.min.js'], 'public/mix/js/bootstrap.bundle.min.js').sourceMaps();
+mix.js(['node_modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js'], 'public/mix/js/dataTables.bootstrap4.min.js');
+mix.sass('resources/sass/app.scss', 'public/mix/css/app.css');
+mix.copy('node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css', 'public/mix/css/dataTables.bootstrap4.min.css');
+mix.extract(scripts, 'public/mix/js/vendor').sourceMaps();
 mix.autoload(autoload);

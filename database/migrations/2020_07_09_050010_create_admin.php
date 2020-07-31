@@ -19,7 +19,7 @@ class CreateAdmin extends Migration
 			$table->string('password', 192);
 			$table->unsignedTinyInteger('rank');
 			$table->string('name', 80);
-			$table->string('email', 80)->nullable();
+			$table->string('email', 80);
 			$table->string('contact', 24)->nullable();
 			$table->string('email_verified_at', 192)->nullable();
 			$table->rememberToken();

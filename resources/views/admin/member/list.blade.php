@@ -5,9 +5,9 @@ Admin
 @endsection
 
 @section('heads')
-<link rel="stylesheet" type="text/css" href="/css/app.css" />
+<link rel="stylesheet" type="text/css" href="/mix/css/app.css" />
 <link rel="stylesheet" type="text/css" href="/plugin/adminlte/dist/css/adminlte.min.css" />
-
+<link rel="stylesheet" type="text/css" href="/mix/css/dataTables.bootstrap4.min.css" />
 @endsection
 
 @section('body_class')
@@ -25,12 +25,12 @@ class="hold-transition sidebar-mini layout-fixed"
 			<div class="container-fluid">
 				<div class="row mb-2">
 					<div class="col-sm-6">
-						<h1 class="m-0 text-dark">관리자 등급 설정</h1>
+						<h1 class="m-0 text-dark">관리자 목록</h1>
 					</div><!-- /.col -->
 					<div class="col-sm-6">
 						<ol class="breadcrumb float-sm-right">
 							<li class="breadcrumb-item"><a href="/admin/settings/rank">환경설정</a></li>
-							<li class="breadcrumb-item active">관리자 등급 설정</li>
+							<li class="breadcrumb-item active">관리자 등록/수정</li>
 						</ol>
 					</div><!-- /.col -->
 				</div><!-- /.row -->
@@ -42,37 +42,25 @@ class="hold-transition sidebar-mini layout-fixed"
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-md-12">
-						<form name="rank_form" method="post" action="/admin/settings/rank/create">
-						{{ csrf_field() }}
 						<div class="card card-primary">
 							<div class="card-header">
-								<h3 class="card-title">등급 신규 등록</h3>
+								<h3 class="card-title">관리자 목록</h3>
 							</div>
 							<div class="card-body">
-								<div class="row">
-									<div class="col-sm-6">
-										<div class="form-group">
-											<label>관리자 등급</label>
-											<input type="text" class="form-control" onkeyup="integerCheck(this);" name="rank" placeholder="등급을 입력해 주세요.">
-										</div>
-									</div>
-									<div class="col-sm-6">
-										<div class="form-group">
-											<label>관리자 등급명</label>
-											<input type="text" class="form-control" name="name" maxlength="12" placeholder="회원 등급의 이름입니다.">
-										</div>
-									</div>
-									@if(count($errors) > 0)
-									<div class="col-sm-12">
-										@foreach($errors->all() as $error)
-										{{ $error }}<br/>
-										@endforeach
-									</div>
-									@endif
-								</div>
+								<table id="admin_list" width="100%">
+									<thead>
+										<th>No.</th>
+										<th>등급</th>
+										<th>ID</th>
+										<th>이름</th>
+										<th>Email</th>
+										<th>연락처</th>
+										<th></th>
+									</thead>
+								</table>
 							</div>
 							<div class="card-footer text-right">
-								<button type="submit" class="btn btn-primary">등록</button>
+								
 							</div>
 						</div>
 					</div>
@@ -88,12 +76,36 @@ class="hold-transition sidebar-mini layout-fixed"
 @endsection
 
 @section('scripts')
-<script src="/js/manifest.js"></script>
-<script src="/js/vendor.js"></script>
-<script src="/js/app.js"></script>
-<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/mix/js/manifest.js"></script>
+<script src="/mix/js/vendor.js"></script>
+<script src="/mix/js/app.js"></script>
+<script src="/mix/js/bootstrap.bundle.min.js"></script>
 <script src="/plugin/adminlte/dist/js/adminlte.min.js"></script>
+<script src="/mix/js/dataTables.bootstrap4.min.js"></script>
 <script>
-
+let table = $("#admin_list").DataTable(
+	{
+		'serverSide': true,
+		'processing': true,
+		'lengthMenu': [10, 20, 50, 100],
+		'ajax': {
+			'url': '/admin/ajax/adminList',
+			'type': 'GET',
+			'dataSrc': function(response) {
+				console.log(response);
+				let data = response.data;
+				return data;
+			}
+		},
+		'columns': [
+			{'data': 'id'},
+			{'data': 'rank'},
+			{'data': 'user_id'},
+			{'data': 'name'},
+			{'data': 'email'},
+			{'data': 'contact'}
+		],
+	}
+);
 </script>
 @endsection

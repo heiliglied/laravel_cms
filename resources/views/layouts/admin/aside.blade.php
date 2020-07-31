@@ -46,6 +46,12 @@
 									<p>관리자 등급설정</p>
 								</a>
 							</li>
+							<li class="nav-item">
+								<a href="/admin/settings/member" class="nav-link @if($menu['active'] == 'admin_member') active @endif">
+									<i class="fas fa-layer-group nav-icon"></i>
+									<p>관리자 등록/수정</p>
+								</a>
+							</li>
 						</ul>
 					</li>
 				</ul>

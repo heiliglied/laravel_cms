@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Settings;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -23,13 +23,7 @@ class RankController extends Controller implements AsideMenuInterface
 		$menu_view = $this->activeMenuList('settings', 'admin_rank');
 		return view('admin.rank.list', ['menu' => $menu_view]);
 	}
-	
-	protected function write(Request $request)
-	{
-		$menu_view = $this->activeMenuList('settings', 'admin_rank');
-		return view('admin.rank.write', ['menu' => $menu_view]);
-	}
-	
+
 	protected function create(Request $request)
 	{
 		if($request->rank == 0) {

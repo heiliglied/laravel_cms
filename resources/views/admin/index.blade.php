@@ -5,7 +5,7 @@ Admin
 @endsection
 
 @section('heads')
-<link rel="stylesheet" type="text/css" href="/css/app.css" />
+<link rel="stylesheet" type="text/css" href="/mix/css/app.css" />
 <link rel="stylesheet" type="text/css" href="/plugin/adminlte/dist/css/adminlte.min.css" />
 
 @endsection
@@ -45,10 +45,10 @@ class="hold-transition sidebar-mini layout-fixed"
 @endsection
 
 @section('scripts')
-<script src="/js/manifest.js"></script>
-<script src="/js/vendor.js"></script>
-<script src="/js/app.js"></script>
-<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/mix/js/manifest.js"></script>
+<script src="/mix/js/vendor.js"></script>
+<script src="/mix/js/app.js"></script>
+<script src="/mix/js/bootstrap.bundle.min.js"></script>
 <script src="/plugin/adminlte/dist/js/adminlte.min.js"></script>
 <script>
 
