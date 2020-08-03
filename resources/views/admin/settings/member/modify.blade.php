@@ -25,7 +25,7 @@ class="hold-transition sidebar-mini layout-fixed"
 			<div class="container-fluid">
 				<div class="row mb-2">
 					<div class="col-sm-6">
-						<h1 class="m-0 text-dark">관리자 등록</h1>
+						<h1 class="m-0 text-dark">관리자 수정</h1>
 					</div><!-- /.col -->
 					<div class="col-sm-6">
 						<ol class="breadcrumb float-sm-right">
@@ -44,30 +44,35 @@ class="hold-transition sidebar-mini layout-fixed"
 					<div class="col-md-12">
 						<div class="card card-primary">
 							<div class="card-header">
-								<h3 class="card-title">관리자 등록</h3>
+								<h3 class="card-title">관리자 수정</h3>
 							</div>
-							<form name="rank_form" method="post" action="/admin/settings/member/create" onSubmit="return create_admin(this)">
+							<form name="rank_form" method="post" action="/admin/settings/member/update" onSubmit="return create_admin(this)">							
 							{{ csrf_field() }}
-							<input type="hidden" name="enable_id" value="disable">
-							<div class="card-body">								
+							@method('PATCH')
+							<input type="hidden" name="id" value="{{ $member->id }}">
+							<input type="hidden" name="user_id" value="{{ $member->user_id }}">
+							<div class="card-body">
 								<div class="form-group">
 									<label for="user_id">사용자ID * </label>
 									<div class="input-group">
-										<input type="text" name="user_id" value="{{ old('user_id') }}" id="user_id" class="form-control" required>
-										<div class="input-group-prepend">
-											<button type="button" class="btn btn-info" onclick="check_id()">ID 중복체크</button>
-										</div>
+										{{ $member->user_id }}
 									</div>
 									<div id="id_status">
 									</div>
 								</div>
 								<div class="form-group">
+									<div class="custom-control custom-checkbox">
+										<input class="custom-control-input" type="checkbox" name="changePassword" id="changePassword" value="Y">
+										<label for="changePassword" class="custom-control-label">비밀번호 갱신</label>
+									</div>
+								</div>
+								<div class="form-group">
 									<label for="password">비밀번호 * </label>
-									<input type="password" name="password" value="" id="password" class="form-control" required>
+									<input type="password" name="password" value="" id="password" class="form-control" disabled>
 								</div>
 								<div class="form-group">
 									<label for="password_confirmation">비밀번호확인 * </label>
-									<input type="password" name="password_confirmation" value="" id="password_confirmation" class="form-control" required>
+									<input type="password" name="password_confirmation" value="" id="password_confirmation" class="form-control" disabled>
 									<div id="password_status">
 									</div>
 								</div>
@@ -77,7 +82,7 @@ class="hold-transition sidebar-mini layout-fixed"
 											<label for="rank">관리자 등급설정 * </label>
 											<select name="rank" class="form-control" id="rank" required>
 												@foreach($rank as $admin_rank)
-												<option value="{{ $admin_rank->rank }}">{{ $admin_rank->name }}</option>
+												<option value="{{ $admin_rank->rank }}" @if($admin_rank->rank == $member->rank) selected @endif>{{ $admin_rank->name }}</option>
 												@endforeach
 											</select>
 										</div>
@@ -85,7 +90,7 @@ class="hold-transition sidebar-mini layout-fixed"
 									<div class="col-sm-6">
 										<div class="form-group">
 											<label for="email">이메일 * </label>
-											<input type="email" name="email" class="form-control" id="email" required>
+											<input type="email" name="email" class="form-control" value="{{ $member->email }}" id="email" required>
 										</div>
 									</div>													
 								</div>
@@ -93,13 +98,13 @@ class="hold-transition sidebar-mini layout-fixed"
 									<div class="col-sm-6">
 										<div class="form-group">
 											<label for="name">이름</label>
-											<input type="text" name="name" class="form-control" id="name">
+											<input type="text" name="name" class="form-control" value="{{ $member->name }}" id="name">
 										</div>
 									</div>
 									<div class="col-sm-6">
 										<div class="form-group">
 											<label for="contact">연락처</label>
-											<input type="text" name="contact" class="form-control" id="contact">
+											<input type="text" name="contact" class="form-control" value="{{ $member->contact }}" id="contact">
 										</div>
 									</div>
 								</div>
@@ -110,8 +115,10 @@ class="hold-transition sidebar-mini layout-fixed"
 								</div>
 							</div>
 							<div class="card-footer text-right">
-								* 은 필수 입력사항입니다.
-								<button type="submit" class="btn btn-primary">등록</button>
+								* 은 필수 입력사항입니다. 
+								<button type="button" onclick="location.href='/admin/settings/member'" class="btn btn-info">목록</button>
+								&nbsp;
+								<button type="submit" class="btn btn-primary">수정</button>
 							</div>
 							</form>
 						</div>
@@ -134,41 +141,36 @@ class="hold-transition sidebar-mini layout-fixed"
 <script src="/mix/js/bootstrap.bundle.min.js"></script>
 <script src="/plugin/adminlte/dist/js/adminlte.min.js"></script>
 <script>
-function check_id() {
-	axios.post('/admin/ajax/idCheck', {
-		user_id: document.getElementsByName('user_id')[0].value
-	}).then((response) => {
-		if(response.data == 'enable') {
-			document.getElementById('id_status').innerHTML = '사용 가능한 아이디입니다.';
-			document.getElementsByName('enable_id')[0].value = 'enable';
-		} else if(response.data == 'duplicate') {
-			document.getElementById('id_status').innerHTML = '이미 사용중인 아이디입니다.';
-			document.getElementsByName('enable_id')[0].value = 'disable';
-		} else if(response.data == 'id_null') {
-			document.getElementById('id_status').innerHTML = '아이디를 입력 해 주세요.';
-			document.getElementsByName('enable_id')[0].value = 'disable';
-		}
-	});
+window.onload = function() {
+	checkPassword(document.getElementById('changePassword'));
+}
+
+var cb = document.getElementById('changePassword');
+cb.addEventListener('click', function(event) {
+	checkPassword(this);
+});
+
+function checkPassword(obj) {
+	if(obj.checked == true) {
+		document.getElementById('password').setAttribute('required', 'required');
+		document.getElementById('password_confirmation').setAttribute('required', 'required');
+		document.getElementById('password').removeAttribute('disabled');
+		document.getElementById('password_confirmation').removeAttribute('disabled');
+	} else {
+		document.getElementById('password').setAttribute('disabled', 'disabled');
+		document.getElementById('password_confirmation').setAttribute('disabled', 'disabled');
+		document.getElementById('password').removeAttribute('required');
+		document.getElementById('password_confirmation').removeAttribute('required');
+	}
 }
 
 function create_admin(form) {
-	if(form.user_id.value == '') {
-		document.getElementById('id_status').innerHTML = '아이디를 입력 해 주세요.';
-		document.getElementsByName('enable_id')[0].value = 'disable';
-		form.user_id.focus();
-		return false;
-	}
-	
-	if(form.enable_id.value != 'enable') {
-		document.getElementById('id_status').innerHTML = 'ID 중복체크를 해 주세요.';
-		form.user_id.focus();
-		return false;
-	}
-	
-	if(form.password.value != form.password_confirmation.value) {
-		document.getElementById('password_status').innerHTML = '입력하신 비밀번호가 일치하지 않습니다.';
-		form.password.focus();
-		return false;
+	if(document.getElementById('changePassword').checked == true) {
+		if(form.password.value != form.password_confirmation.value) {
+			document.getElementById('password_status').innerHTML = '입력하신 비밀번호가 일치하지 않습니다.';
+			form.password.focus();
+			return false;
+		}
 	}
 }
 </script>

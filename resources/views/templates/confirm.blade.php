@@ -1,4 +1,4 @@
-<div class="modal fade" id="confirm_modal" tabindex="-1" role="dialog">
+<div class="modal fade" id="confirm_modal" data-id="" tabindex="-1" role="dialog">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -12,7 +12,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-primary" onclick="confirmed()">확인</button>
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="canceled()">취소</button>
 			</div>
 		</div>
 	</div>

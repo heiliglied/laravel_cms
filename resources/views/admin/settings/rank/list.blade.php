@@ -123,6 +123,7 @@ class="hold-transition sidebar-mini layout-fixed"
 									</tbody>
 								</table>
 							</div>
+							
 						</div>
 					</div>
 				</div>

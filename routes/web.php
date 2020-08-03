@@ -34,7 +34,10 @@ Route::group(['prefix' => 'admin'], function(){
 			Route::get('/rank', 'Admin\Settings\RankController@list');
 			Route::get('/member', 'Admin\Settings\MemberController@adminList');
 			Route::get('/member/write', 'Admin\Settings\MemberController@adminWrite');
+			Route::get('/member/modify/{id}', 'Admin\Settings\MemberController@adminModify');
 			Route::post('/member/create', 'Admin\Settings\MemberController@adminCreate');
+			Route::patch('/member/update', 'Admin\Settings\MemberController@adminUpdate');
+			Route::get('/permission', 'Admin\Settings\PermissionController@list');
 		});
 		
 		Route::group(['prefix' => 'ajax'], function(){
@@ -45,6 +48,7 @@ Route::group(['prefix' => 'admin'], function(){
 			
 			Route::post('/idCheck', 'Ajax\AdminMemberController@idCheck');
 			Route::get('/adminList', 'Ajax\AdminMemberController@adminList');
+			Route::delete('/adminDelete/{id}', 'Ajax\AdminMemberController@adminDelete');
 		});
 	});
 });

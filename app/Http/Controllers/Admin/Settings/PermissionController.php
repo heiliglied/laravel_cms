@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Interfaces\AsideMenuInterface;
 
-class RankController extends Controller implements AsideMenuInterface 
+class PermissionController extends Controller implements AsideMenuInterface 
 {
     public function __construct() {}
 	
@@ -20,14 +20,7 @@ class RankController extends Controller implements AsideMenuInterface
 	
 	protected function list(Request $request)
 	{
-		$menu_view = $this->activeMenuList('settings', 'admin_rank');
-		return view('admin.settings.rank.list', ['menu' => $menu_view]);
-	}
-
-	protected function create(Request $request)
-	{
-		if($request->rank == 0) {
-			return back()->withErrors(['msg' => '0은 설정할 수 없는 등급입니다.']);
-		}
+		$menu_view = $this->activeMenuList('settings', 'admin_permission');
+		return view('admin.settings.permission.list', ['menu' => $menu_view]);
 	}
 }

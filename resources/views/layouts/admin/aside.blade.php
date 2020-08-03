@@ -52,6 +52,12 @@
 									<p>관리자 등록/수정</p>
 								</a>
 							</li>
+							<li class="nav-item">
+								<a href="/admin/settings/permission" class="nav-link @if($menu['active'] == 'admin_permission') active @endif">
+									<i class="fas fa-layer-group nav-icon"></i>
+									<p>접근권한 관리</p>
+								</a>
+							</li>
 						</ul>
 					</li>
 				</ul>

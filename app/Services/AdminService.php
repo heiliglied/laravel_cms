@@ -19,7 +19,7 @@ class AdminService
 	
 	function adminTotalCount() 
 	{
-		return Admin::count();
+		return Admin::where('rank', '>', 0)->count();
 	}
 	
 	function createAuth(array $data) 
@@ -38,11 +38,46 @@ class AdminService
 	
 	function getAdminFilteredCount(array $parameters)
 	{
-		return Admin::count();
+		$result = Admin::where('rank', '>', 0);
+		
+		$result = $result->where(function($query) use($parameters) {
+			$query->where('user_id', 'like', '%' . $parameters['search']['value'] . '%')
+					->orWhere('name', 'like', '%' . $parameters['search']['value'] . '%')
+					->orWhere('email', 'like', '%' . $parameters['search']['value'] . '%')
+					->orWhere('contact', 'like', '%' . $parameters['search']['value'] . '%');
+		});
+		
+		$result = $result->count();
+		return $result;
 	}
 	
 	function getAdminList(array $parameters)
 	{
-		return Admin::skip($parameters['skip'])->take($parameters['take'])->orderBy($parameters['order']['column'], $parameters['order']['sort'])->get();
+		$result = Admin::where('rank', '>', 0);
+		
+		$result = $result->where(function($query) use($parameters) {
+			$query->where('user_id', 'like', '%' . $parameters['search']['value'] . '%')
+					->orWhere('name', 'like', '%' . $parameters['search']['value'] . '%')
+					->orWhere('email', 'like', '%' . $parameters['search']['value'] . '%')
+					->orWhere('contact', 'like', '%' . $parameters['search']['value'] . '%');
+		});
+		
+		$result = $result->skip($parameters['skip'])->take($parameters['take'])->orderBy($parameters['order']['column'], $parameters['order']['sort'])->get();
+		return $result;
+	}
+	
+	function adminDelete(int $id)
+	{
+		return Admin::where('id', $id)->delete();
+	}
+	
+	function getOneRow(String $column, $key)
+	{
+		return Admin::where($column, $key)->first();
+	}
+	
+	function updateAdmin(String $column, $key, array $data)
+	{
+		return Admin::where($column, $key)->update($data);
 	}
 }

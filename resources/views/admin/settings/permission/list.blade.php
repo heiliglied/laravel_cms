@@ -25,12 +25,12 @@ class="hold-transition sidebar-mini layout-fixed"
 			<div class="container-fluid">
 				<div class="row mb-2">
 					<div class="col-sm-6">
-						<h1 class="m-0 text-dark">관리자 목록</h1>
+						<h1 class="m-0 text-dark">접근권한 목록</h1>
 					</div><!-- /.col -->
 					<div class="col-sm-6">
 						<ol class="breadcrumb float-sm-right">
 							<li class="breadcrumb-item"><a href="/admin/settings/rank">환경설정</a></li>
-							<li class="breadcrumb-item active">관리자 등록/수정</li>
+							<li class="breadcrumb-item active">접근권한 관리</li>
 						</ol>
 					</div><!-- /.col -->
 				</div><!-- /.row -->
@@ -44,10 +44,10 @@ class="hold-transition sidebar-mini layout-fixed"
 					<div class="col-md-12">
 						<div class="card card-primary">
 							<div class="card-header">
-								<h3 class="card-title">관리자 목록</h3>
+								<h3 class="card-title">접근권한 목록</h3>
 							</div>
 							<div class="card-body">
-								<table id="admin_list" width="100%">
+								<table id="admin_list" class="table table-bordered table-hover">
 									<thead>
 										<th>No.</th>
 										<th>등급</th>
@@ -55,12 +55,13 @@ class="hold-transition sidebar-mini layout-fixed"
 										<th>이름</th>
 										<th>Email</th>
 										<th>연락처</th>
-										<th></th>
+										<th>Action</th>
 									</thead>
 								</table>
 							</div>
 							<div class="card-footer text-right">
-								
+								<button type="button" onclick="location.href='/admin/settings/member/write'" class="btn btn-info">신규등록</button>
+							</div>
 							</div>
 						</div>
 					</div>
@@ -73,6 +74,7 @@ class="hold-transition sidebar-mini layout-fixed"
 </div>
 @include('layouts.admin.footer')
 @include('layouts.admin.righttoggle')
+@include('templates.confirm', ['confirm_title' => '관리자 삭제', 'confirm_body' => '관리자를 삭제하시겠습니까?'])
 @endsection
 
 @section('scripts')
@@ -92,7 +94,6 @@ let table = $("#admin_list").DataTable(
 			'url': '/admin/ajax/adminList',
 			'type': 'GET',
 			'dataSrc': function(response) {
-				console.log(response);
 				let data = response.data;
 				return data;
 			}
@@ -103,9 +104,54 @@ let table = $("#admin_list").DataTable(
 			{'data': 'user_id'},
 			{'data': 'name'},
 			{'data': 'email'},
-			{'data': 'contact'}
+			{'data': 'contact'},
+			{
+				'data': null,
+				'render': function(data, type, row, meta) {
+					return '<button type="button" class="btn btn-sm btn-primary" onclick="modify(\'' + data.id + '\')">수정</button>&nbsp'
+							+ '<button type="button" class="btn btn-sm btn-danger" onclick="show_delete(\'' + data.id + '\')">삭제</button>';
+				}
+			}
 		],
+		'columnDefs': [
+			{
+				'targets': 6,
+				'orderable': false,
+				'className': 'text-center',
+			}
+		]
 	}
 );
+
+function modify(key) {
+	location.href = '/admin/settings/member/modify/' + key;
+}
+
+function show_delete(key) {
+	$("#confirm_modal").attr('data-id', key);
+	$("#confirm_modal").modal('show');
+}
+
+function confirmed() {
+	adminDelete();
+	$("#confirm_modal").removeAttr('data-id');
+	$("#confirm_modal").modal('hide');
+}
+
+function canceled() {
+	$("#confirm_modal").removeAttr('data-id');
+}
+
+function adminDelete() {
+	var key = $("#confirm_modal").attr('data-id');
+	axios.delete('/admin/ajax/adminDelete/' + key).then((response) => {
+		if(response.data != 'success') {
+			showNoty('오류가 발생하였습니다.', 'error', 'bottomRight', 3000);
+			return false;
+		} else {
+			table.draw();
+		}
+	});
+}
 </script>
 @endsection

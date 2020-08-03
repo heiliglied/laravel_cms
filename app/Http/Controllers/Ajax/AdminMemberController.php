@@ -49,4 +49,17 @@ class AdminMemberController extends Controller
 		
 		return $return;
 	}
+	
+	protected function adminDelete(Request $request)
+	{
+		$adminService = AdminService::getInstance();
+		
+		try {
+			$adminService->adminDelete((int)$request->id);
+		} catch(\Exception $e) {
+			return 'error';
+		}
+		
+		return 'success';
+	}
 }
