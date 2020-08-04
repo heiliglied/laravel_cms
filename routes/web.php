@@ -27,7 +27,7 @@ Route::group(['prefix' => 'admin'], function(){
 	Route::post('signUp', 'Admin\Auth\RegisterController@signUp')->name('adminSignUp');
 	
 	//인증 미들웨어 확인
-	Route::group(['middleware' => ['auth:admin']], function() {
+	Route::group(['middleware' => ['auth:admin', 'admin.permission']], function() {
 		Route::get('/', 'Admin\IndexController@index');
 		
 		Route::group(['prefix' => 'settings'], function(){
@@ -38,7 +38,15 @@ Route::group(['prefix' => 'admin'], function(){
 			Route::post('/member/create', 'Admin\Settings\MemberController@adminCreate');
 			Route::patch('/member/update', 'Admin\Settings\MemberController@adminUpdate');
 			Route::get('/permission', 'Admin\Settings\PermissionController@list');
+			Route::get('/permission/write', 'Admin\Settings\PermissionController@write');
+			Route::post('/permission/create', 'Admin\Settings\PermissionController@create');
 		});
+		
+		Route::group(['prefix' => 'users'], function(){
+			Route::get('/users', 'Admin\Users\UserController@list');
+			Route::get('/users/modify/{id}', 'Admin\Users\UserController@userModify');
+		});
+		
 		
 		Route::group(['prefix' => 'ajax'], function(){
 			Route::get('/rankList', 'Ajax\AdminRankController@getList');
@@ -49,6 +57,9 @@ Route::group(['prefix' => 'admin'], function(){
 			Route::post('/idCheck', 'Ajax\AdminMemberController@idCheck');
 			Route::get('/adminList', 'Ajax\AdminMemberController@adminList');
 			Route::delete('/adminDelete/{id}', 'Ajax\AdminMemberController@adminDelete');
+			
+			Route::get('/permissionList', 'Ajax\AdminPermissionController@permissionList');
+			Route::delete('/permissionDelete/{id}', 'Ajax\AdminPermissionController@permissionDelete');
 		});
 	});
 });

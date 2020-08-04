@@ -30,7 +30,24 @@
 							</p>
 						</a>
 					</li>
-					
+					<li class="nav-item has-treeview @if($menu['open'] == 'users') menu-open @endif">
+						<a href="#" class="nav-link">
+							<i class="nav-icon fas fa-users"></i>
+							<p>
+								회원관리
+								<i class="right fas fa-angle-left"></i>
+							</p>
+						</a>
+						<ul class="nav nav-treeview">
+							<li class="nav-item">
+								<a href="/admin/users/users" class="nav-link @if($menu['active'] == 'users') active @endif">
+									<i class="fas fa-layer-group nav-icon"></i>
+									<p>회원관리</p>
+								</a>
+							</li>
+						</ul>
+					</li>
+					@if(Auth::user()->rank == 0)
 					<li class="nav-item has-treeview @if($menu['open'] == 'settings') menu-open @endif">
 						<a href="#" class="nav-link">
 							<i class="nav-icon fas fa-cog"></i>
@@ -60,6 +77,7 @@
 							</li>
 						</ul>
 					</li>
+					@endif
 				</ul>
 			</nav>
 		</div>

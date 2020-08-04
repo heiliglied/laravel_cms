@@ -47,20 +47,17 @@ class="hold-transition sidebar-mini layout-fixed"
 								<h3 class="card-title">접근권한 목록</h3>
 							</div>
 							<div class="card-body">
-								<table id="admin_list" class="table table-bordered table-hover">
+								<table id="permission_list" class="table table-bordered table-hover">
 									<thead>
 										<th>No.</th>
 										<th>등급</th>
-										<th>ID</th>
-										<th>이름</th>
-										<th>Email</th>
-										<th>연락처</th>
+										<th>URI</th>
 										<th>Action</th>
 									</thead>
 								</table>
 							</div>
 							<div class="card-footer text-right">
-								<button type="button" onclick="location.href='/admin/settings/member/write'" class="btn btn-info">신규등록</button>
+								<button type="button" onclick="location.href='/admin/settings/permission/write'" class="btn btn-info">신규등록</button>
 							</div>
 							</div>
 						</div>
@@ -74,7 +71,7 @@ class="hold-transition sidebar-mini layout-fixed"
 </div>
 @include('layouts.admin.footer')
 @include('layouts.admin.righttoggle')
-@include('templates.confirm', ['confirm_title' => '관리자 삭제', 'confirm_body' => '관리자를 삭제하시겠습니까?'])
+@include('templates.confirm', ['confirm_title' => '접근권한 삭제', 'confirm_body' => '권한을 삭제하시겠습니까?'])
 @endsection
 
 @section('scripts')
@@ -85,13 +82,13 @@ class="hold-transition sidebar-mini layout-fixed"
 <script src="/plugin/adminlte/dist/js/adminlte.min.js"></script>
 <script src="/mix/js/dataTables.bootstrap4.min.js"></script>
 <script>
-let table = $("#admin_list").DataTable(
+let table = $("#permission_list").DataTable(
 	{
 		'serverSide': true,
 		'processing': true,
 		'lengthMenu': [10, 20, 50, 100],
 		'ajax': {
-			'url': '/admin/ajax/adminList',
+			'url': '/admin/ajax/permissionList',
 			'type': 'GET',
 			'dataSrc': function(response) {
 				let data = response.data;
@@ -101,10 +98,7 @@ let table = $("#admin_list").DataTable(
 		'columns': [
 			{'data': 'id'},
 			{'data': 'rank'},
-			{'data': 'user_id'},
-			{'data': 'name'},
-			{'data': 'email'},
-			{'data': 'contact'},
+			{'data': 'uri'},
 			{
 				'data': null,
 				'render': function(data, type, row, meta) {
@@ -115,7 +109,7 @@ let table = $("#admin_list").DataTable(
 		],
 		'columnDefs': [
 			{
-				'targets': 6,
+				'targets': 3,
 				'orderable': false,
 				'className': 'text-center',
 			}
@@ -124,7 +118,7 @@ let table = $("#admin_list").DataTable(
 );
 
 function modify(key) {
-	location.href = '/admin/settings/member/modify/' + key;
+	location.href = '/admin/users/users/modify/' + key;
 }
 
 function show_delete(key) {
@@ -144,7 +138,7 @@ function canceled() {
 
 function adminDelete() {
 	var key = $("#confirm_modal").attr('data-id');
-	axios.delete('/admin/ajax/adminDelete/' + key).then((response) => {
+	axios.delete('/admin/ajax/permissionDelete/' + key).then((response) => {
 		if(response.data != 'success') {
 			showNoty('오류가 발생하였습니다.', 'error', 'bottomRight', 3000);
 			return false;
