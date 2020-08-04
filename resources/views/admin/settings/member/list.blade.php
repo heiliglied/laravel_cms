@@ -85,6 +85,7 @@ class="hold-transition sidebar-mini layout-fixed"
 <script src="/plugin/adminlte/dist/js/adminlte.min.js"></script>
 <script src="/mix/js/dataTables.bootstrap4.min.js"></script>
 <script>
+@include('errors.permission')
 let table = $("#admin_list").DataTable(
 	{
 		'serverSide': true,
@@ -146,7 +147,7 @@ function adminDelete() {
 	var key = $("#confirm_modal").attr('data-id');
 	axios.delete('/admin/ajax/adminDelete/' + key).then((response) => {
 		if(response.data != 'success') {
-			showNoty('오류가 발생하였습니다.', 'error', 'bottomRight', 3000);
+			toastr.error('오류가 발생하였습니다.');
 			return false;
 		} else {
 			table.draw();

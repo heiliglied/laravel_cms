@@ -17,7 +17,7 @@ let scripts = [
 	'jquery-ui',
 	'popper.js',
 	'vue',
-	'noty',
+	'toastr',
 ];
 
 let autoload = [

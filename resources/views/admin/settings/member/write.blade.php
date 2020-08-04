@@ -136,6 +136,7 @@ class="hold-transition sidebar-mini layout-fixed"
 <script src="/mix/js/bootstrap.bundle.min.js"></script>
 <script src="/plugin/adminlte/dist/js/adminlte.min.js"></script>
 <script>
+@include('errors.permission')
 function check_id() {
 	axios.post('/admin/ajax/idCheck', {
 		user_id: document.getElementsByName('user_id')[0].value

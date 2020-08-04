@@ -40,6 +40,8 @@ Route::group(['prefix' => 'admin'], function(){
 			Route::get('/permission', 'Admin\Settings\PermissionController@list');
 			Route::get('/permission/write', 'Admin\Settings\PermissionController@write');
 			Route::post('/permission/create', 'Admin\Settings\PermissionController@create');
+			Route::get('/permission/modify/{id}', 'Admin\Settings\PermissionController@modify');
+			Route::patch('/permission/update', 'Admin\Settings\PermissionController@update');
 		});
 		
 		Route::group(['prefix' => 'users'], function(){

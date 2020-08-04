@@ -25,7 +25,7 @@ window.axios.defaults.headers.common = {
 	'X-CSRF-TOKEN' : document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
 }
 window.Vue = require('vue');
-window.Noty = require('noty');
+window.toastr = require('toastr');
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

@@ -45,7 +45,14 @@ class MemberController extends Controller implements AsideMenuInterface
 		} else {
 			$adminService = AdminService::getInstance();
 			try{ 
-				$adminService->createAuth($request->all());
+				$adminService->createAuth([
+					'user_id' => $request->user_id,
+					'password' => bcrypt($request->password),
+					'rank' => $request->rank,
+					'name' => $request->name,
+					'email' => $request->email,
+					'contact' => $request->contact,
+				]);
 			} catch(\Exception $e) {
 				abort(500);
 			}
@@ -79,12 +86,20 @@ class MemberController extends Controller implements AsideMenuInterface
 	
 	protected function adminUpdate(Request $request)
 	{
+		$datas = [
+			'rank' => $request->rank,
+			'email' => $request->email,
+			'name' => $request->name,
+			'contact' => $request->contact,
+		];
+		
 		$rules = [
 			'email' => 'required|email',
 		];
 		
 		if($request->changePassword == 'Y') {
 			$rules['password'] = 'required|confirmed|min:6';
+			$datas['password'] = bcrypt($request->password);
 		}
 		
 		$validation = $this->validator($request, $rules);
@@ -94,10 +109,8 @@ class MemberController extends Controller implements AsideMenuInterface
 		} else {
 			$adminService = AdminService::getInstance();
 			try{
-				$adminService->updateAdmin('id', $request->id, $request->except('_token', '_method', 'changePassword', 'password_confirmation'));
+				$adminService->updateAdmin('id', $request->id, $datas);
 			} catch(\Exception $e) {
-				print_r($e->getMessage());
-				exit;
 				abort(500);
 			}
 			return redirect('/admin/settings/member');

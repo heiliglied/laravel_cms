@@ -82,6 +82,7 @@ class="hold-transition sidebar-mini layout-fixed"
 <script src="/plugin/adminlte/dist/js/adminlte.min.js"></script>
 <script src="/mix/js/dataTables.bootstrap4.min.js"></script>
 <script>
+@include('errors.permission')
 let table = $("#permission_list").DataTable(
 	{
 		'serverSide': true,
@@ -118,7 +119,7 @@ let table = $("#permission_list").DataTable(
 );
 
 function modify(key) {
-	location.href = '/admin/users/users/modify/' + key;
+	location.href = '/admin/settings/permission/modify/' + key;
 }
 
 function show_delete(key) {
@@ -140,7 +141,7 @@ function adminDelete() {
 	var key = $("#confirm_modal").attr('data-id');
 	axios.delete('/admin/ajax/permissionDelete/' + key).then((response) => {
 		if(response.data != 'success') {
-			showNoty('오류가 발생하였습니다.', 'error', 'bottomRight', 3000);
+			toastr.error('오류가 발생하였습니다.');
 			return false;
 		} else {
 			table.draw();

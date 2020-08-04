@@ -51,6 +51,6 @@ class="hold-transition sidebar-mini layout-fixed"
 <script src="/mix/js/bootstrap.bundle.min.js"></script>
 <script src="/plugin/adminlte/dist/js/adminlte.min.js"></script>
 <script>
-
+@include('errors.permission')
 </script>
 @endsection

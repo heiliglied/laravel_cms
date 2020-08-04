@@ -145,6 +145,7 @@ class="hold-transition sidebar-mini layout-fixed"
 <script src="/mix/js/bootstrap.bundle.min.js"></script>
 <script src="/plugin/adminlte/dist/js/adminlte.min.js"></script>
 <script>
+@include('errors.permission')
 const rank = new Vue({
 	el: "#rank_body",
 	delimiters: ['[[', ']]'],
@@ -172,7 +173,7 @@ const rank = new Vue({
 			this.write_mode = 'insert';
 			
 			if(rank.rankCheck() == 'name_invalid') {
-				showNoty('등록명을 입력해 주세요.', 'warning', 'bottomRight', 3000);
+				toastr.warning('등록명을 입력해 주세요.');
 				return false;
 			}
 			
@@ -184,10 +185,10 @@ const rank = new Vue({
 				let return_message = response.data;
 				
 				if(return_message == 'duplicate') {
-					showNoty('이미 등록된 랭크입니다.', 'warning', 'bottomRight', 3000);
+					toastr.error('이미 등록된 랭크입니다.');
 					return false;
 				} else if(return_message == 'error') {
-					showNoty('오류가 발생하였습니다.', 'error', 'bottomRight', 3000);
+					toastr.error('오류가 발생하였습니다.');
 					return false;
 				}
 				
@@ -212,7 +213,7 @@ const rank = new Vue({
 				}
 			}).then((response)=>{
 				if(response.data != 'success') {
-					showNoty('오류가 발생하였습니다.', 'error', 'bottomRight', 3000);
+					toastr.error('오류가 발생하였습니다.');
 					return false;
 				}
 				rank.getRankList(1);
@@ -241,7 +242,7 @@ const rank = new Vue({
 				let return_message = response.data;
 				
 				if(return_message == 'error') {
-					showNoty('오류가 발생하였습니다.', 'error', 'bottomRight', 3000);
+					toastr.error('오류가 발생하였습니다.');
 					return false;
 				}
 				

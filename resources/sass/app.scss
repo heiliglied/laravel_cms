@@ -4,9 +4,8 @@
 // Variables
 @import 'variables';
 
-//noty
-@import "~noty/src/noty.scss";
-@import "~noty/src/themes/mint.scss";
+// toastr
+@import '~toastr/toastr';
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';

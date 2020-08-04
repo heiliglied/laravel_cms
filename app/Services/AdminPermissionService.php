@@ -34,7 +34,6 @@ class AdminPermissionService
 	function getPermissionList(array $parameters)
 	{
 		$result = AdminPermission::where('uri', 'like', '%' . $parameters['search']['value'] . '%');
-		
 		$result = $result->skip($parameters['skip'])->take($parameters['take'])->orderBy($parameters['order']['column'], $parameters['order']['sort'])->get();
 		return $result;
 	}
@@ -47,5 +46,10 @@ class AdminPermissionService
 	function getOneRow(String $column, $key)
 	{
 		return AdminPermission::where($column, $key)->first();
+	}
+	
+	function permissionUpdate(String $column, $key, array $datas)
+	{
+		return AdminPermission::where($column, $key)->update($datas);
 	}
 }

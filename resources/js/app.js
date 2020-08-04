@@ -6,11 +6,7 @@ window.integerCheck = function(obj) {
 	obj.value = value.replace(regex, "");
 };
 
-window.showNoty = function(text, type, layout, timeout) {
-	return new Noty({
-		type: type,
-		layout: layout,
-		text: text,
-		timeout: timeout,
-	}).show();
-}
+toastr.options.closeMethod = 'fadeOut';
+toastr.options.closeDuration = 300;
+toastr.options.closeEasing = 'swing';
+toastr.options.positionClass = 'toast-bottom-right';

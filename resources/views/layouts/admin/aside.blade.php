@@ -34,7 +34,7 @@
 						<a href="#" class="nav-link">
 							<i class="nav-icon fas fa-users"></i>
 							<p>
-								회원관리
+								사용자 관리
 								<i class="right fas fa-angle-left"></i>
 							</p>
 						</a>
@@ -42,7 +42,7 @@
 							<li class="nav-item">
 								<a href="/admin/users/users" class="nav-link @if($menu['active'] == 'users') active @endif">
 									<i class="fas fa-layer-group nav-icon"></i>
-									<p>회원관리</p>
+									<p>사용자 관리</p>
 								</a>
 							</li>
 						</ul>
