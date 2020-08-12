@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAdmin extends Migration
+class CreateUser extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateAdmin extends Migration
      */
     public function up()
     {
-        Schema::create('admin', function (Blueprint $table) {
+        Schema::create('user', function (Blueprint $table) {
             $table->id();
-			$table->string('user_id', 64)->unique();
+			$table->string('user_id', 64);
 			$table->string('password', 192);
 			$table->unsignedTinyInteger('rank');
 			$table->string('name', 80)->nullable();
@@ -23,7 +23,11 @@ class CreateAdmin extends Migration
 			$table->string('contact', 24)->nullable();
 			$table->string('email_verified_at', 192)->nullable();
 			$table->rememberToken();
-			$table->timestamps();
+			$table->string('social_path', 32)->nullable();
+			$table->string('social_key', 192)->nullable();
+			$table->enum('except', ['Y', 'N', 'R'])->nullable()->default('N');
+			$table->datetime('excepted_at')->nullable();
+            $table->timestamps();
         });
     }
 
@@ -34,6 +38,6 @@ class CreateAdmin extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('admin');
+        Schema::dropIfExists('user');
     }
 }

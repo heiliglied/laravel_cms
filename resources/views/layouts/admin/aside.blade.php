@@ -40,6 +40,10 @@
 						</a>
 						<ul class="nav nav-treeview">
 							<li class="nav-item">
+								<a href="/admin/users/rank" class="nav-link @if($menu['active'] == 'user_rank') active @endif">
+									<i class="fas fa-layer-group nav-icon"></i>
+									<p>사용자 등급설정</p>
+								</a>
 								<a href="/admin/users/users" class="nav-link @if($menu['active'] == 'users') active @endif">
 									<i class="fas fa-layer-group nav-icon"></i>
 									<p>사용자 관리</p>

@@ -27,6 +27,9 @@ class AdminMemberController extends Controller
 	
 	protected function adminList(Request $request)
 	{
+		print_r($request->search);
+		exit;
+		
 		$parameters = [
 			'skip' => $request->start,
 			'take' => $request->length,

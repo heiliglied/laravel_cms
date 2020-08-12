@@ -45,16 +45,16 @@ Route::group(['prefix' => 'admin'], function(){
 		});
 		
 		Route::group(['prefix' => 'users'], function(){
+			Route::get('/rank', 'Admin\Users\RankController@list');
 			Route::get('/users', 'Admin\Users\UserController@list');
 			Route::get('/users/modify/{id}', 'Admin\Users\UserController@userModify');
 		});
 		
-		
 		Route::group(['prefix' => 'ajax'], function(){
-			Route::get('/rankList', 'Ajax\AdminRankController@getList');
-			Route::post('/rankInsert', 'Ajax\AdminRankController@insert');
-			Route::delete('/rankDelete', 'Ajax\AdminRankController@delete');
-			Route::patch('/rankUpdate', 'Ajax\AdminRankController@update');
+			Route::get('/adminRankList', 'Ajax\AdminRankController@getList');
+			Route::post('/adminRankInsert', 'Ajax\AdminRankController@insert');
+			Route::delete('/adminRankDelete', 'Ajax\AdminRankController@delete');
+			Route::patch('/adminRankUpdate', 'Ajax\AdminRankController@update');
 			
 			Route::post('/idCheck', 'Ajax\AdminMemberController@idCheck');
 			Route::get('/adminList', 'Ajax\AdminMemberController@adminList');
@@ -62,6 +62,11 @@ Route::group(['prefix' => 'admin'], function(){
 			
 			Route::get('/permissionList', 'Ajax\AdminPermissionController@permissionList');
 			Route::delete('/permissionDelete/{id}', 'Ajax\AdminPermissionController@permissionDelete');
+			
+			Route::get('/userRankList', 'Ajax\UserRankController@getList');
+			Route::post('/userRankInsert', 'Ajax\UserRankController@insert');
+			Route::delete('/userRankDelete', 'Ajax\UserRankController@delete');
+			Route::patch('/userRankUpdate', 'Ajax\UserRankController@update');
 		});
 	});
 });

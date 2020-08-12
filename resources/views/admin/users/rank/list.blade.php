@@ -29,12 +29,12 @@ class="hold-transition sidebar-mini layout-fixed"
 			<div class="container-fluid">
 				<div class="row mb-2">
 					<div class="col-sm-6">
-						<h1 class="m-0 text-dark">관리자 등급 설정</h1>
+						<h1 class="m-0 text-dark">사용자 등급 설정</h1>
 					</div><!-- /.col -->
 					<div class="col-sm-6">
 						<ol class="breadcrumb float-sm-right">
-							<li class="breadcrumb-item"><a href="/admin/settings/rank">환경설정</a></li>
-							<li class="breadcrumb-item active">관리자 등급 설정</li>
+							<li class="breadcrumb-item"><a href="/admin/users/rank">사용자 관리</a></li>
+							<li class="breadcrumb-item active">사용자 등급 설정</li>
 						</ol>
 					</div><!-- /.col -->
 				</div><!-- /.row -->
@@ -161,7 +161,7 @@ const rank = new Vue({
 	},
 	methods: {
 		getRankList: (page) => {
-			axios.get('/admin/ajax/adminRankList', {
+			axios.get('/admin/ajax/userRankList', {
 				page: page
 			}).then((response) => {
 				rank.lists = response.data.lists;
@@ -177,7 +177,7 @@ const rank = new Vue({
 				return false;
 			}
 			
-			axios.post('/admin/ajax/adminRankInsert', {
+			axios.post('/admin/ajax/userRankInsert', {
 				rank: this.rank,
 				name: this.name,
 				write_mode: this.write_mode,
@@ -207,7 +207,7 @@ const rank = new Vue({
 		},
 		
 		rankDelete: () => {
-			axios.delete('/admin/ajax/adminRankDelete', {
+			axios.delete('/admin/ajax/userRankDelete', {
 				data: {
 					rank: this.rank,
 				}
@@ -235,7 +235,7 @@ const rank = new Vue({
 			let key = document.getElementsByName('rank')[0].value;
 			let name = document.getElementsByName('name')[0].value;
 			
-			axios.patch('/admin/ajax/adminRankUpdate', {
+			axios.patch('/admin/ajax/userRankUpdate', {
 				rank: key,
 				name: name,
 			}).then((response)=>{
