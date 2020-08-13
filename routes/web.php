@@ -47,7 +47,12 @@ Route::group(['prefix' => 'admin'], function(){
 		Route::group(['prefix' => 'users'], function(){
 			Route::get('/rank', 'Admin\Users\RankController@list');
 			Route::get('/users', 'Admin\Users\UserController@list');
+			Route::get('/users/write', 'Admin\Users\UserController@userWrite');
 			Route::get('/users/modify/{id}', 'Admin\Users\UserController@userModify');
+			
+			Route::post('/users/create', 'Admin\Users\UserController@userCreate');
+			Route::patch('/users/update', 'Admin\Users\UserController@userUpdate');
+			Route::delete('/userDelete/', 'Admin\Users\UserController@userDelete');
 		});
 		
 		Route::group(['prefix' => 'ajax'], function(){
@@ -56,7 +61,7 @@ Route::group(['prefix' => 'admin'], function(){
 			Route::delete('/adminRankDelete', 'Ajax\AdminRankController@delete');
 			Route::patch('/adminRankUpdate', 'Ajax\AdminRankController@update');
 			
-			Route::post('/idCheck', 'Ajax\AdminMemberController@idCheck');
+			Route::post('/adminIdCheck', 'Ajax\AdminMemberController@idCheck');
 			Route::get('/adminList', 'Ajax\AdminMemberController@adminList');
 			Route::delete('/adminDelete/{id}', 'Ajax\AdminMemberController@adminDelete');
 			
@@ -67,6 +72,10 @@ Route::group(['prefix' => 'admin'], function(){
 			Route::post('/userRankInsert', 'Ajax\UserRankController@insert');
 			Route::delete('/userRankDelete', 'Ajax\UserRankController@delete');
 			Route::patch('/userRankUpdate', 'Ajax\UserRankController@update');
+			
+			Route::post('/userIdCheck', 'Ajax\UserMemberController@idCheck');
+			Route::get('/userList', 'Ajax\UserMemberController@userList');
+			Route::patch('/userExcept/{id}', 'Ajax\UserMemberController@userExcept');
 		});
 	});
 });

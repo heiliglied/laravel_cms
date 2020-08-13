@@ -25,12 +25,12 @@ class="hold-transition sidebar-mini layout-fixed"
 			<div class="container-fluid">
 				<div class="row mb-2">
 					<div class="col-sm-6">
-						<h1 class="m-0 text-dark">관리자 등록</h1>
+						<h1 class="m-0 text-dark">사용자 등록</h1>
 					</div><!-- /.col -->
 					<div class="col-sm-6">
 						<ol class="breadcrumb float-sm-right">
-							<li class="breadcrumb-item"><a href="/admin/settings/rank">환경설정</a></li>
-							<li class="breadcrumb-item active">관리자 등록/수정</li>
+							<li class="breadcrumb-item"><a href="/admin/users/users">사용자 관리</a></li>
+							<li class="breadcrumb-item active">사용자 관리</li>
 						</ol>
 					</div><!-- /.col -->
 				</div><!-- /.row -->
@@ -44,9 +44,9 @@ class="hold-transition sidebar-mini layout-fixed"
 					<div class="col-md-12">
 						<div class="card card-primary">
 							<div class="card-header">
-								<h3 class="card-title">관리자 등록</h3>
+								<h3 class="card-title">사용자 등록</h3>
 							</div>
-							<form name="rank_form" method="post" action="/admin/settings/member/create" onSubmit="return create_admin(this)">
+							<form name="rank_form" method="post" action="/admin/users/users/create" onSubmit="return create_user(this)">
 							{{ csrf_field() }}
 							<input type="hidden" name="enable_id" value="disable">
 							<div class="card-body">								
@@ -74,10 +74,10 @@ class="hold-transition sidebar-mini layout-fixed"
 								<div class="row">
 									<div class="col-sm-6">
 										<div class="form-group">
-											<label for="rank">관리자 등급설정 * </label>
+											<label for="rank">사용자 등급설정 * </label>
 											<select name="rank" class="form-control" id="rank" required>
-												@foreach($rank as $admin_rank)
-												<option value="{{ $admin_rank->rank }}">{{ $admin_rank->name }}</option>
+												@foreach($rank as $user_rank)
+												<option value="{{ $user_rank->rank }}">{{ $user_rank->name }}</option>
 												@endforeach
 											</select>
 										</div>
@@ -92,8 +92,8 @@ class="hold-transition sidebar-mini layout-fixed"
 								<div class="row">
 									<div class="col-sm-6">
 										<div class="form-group">
-											<label for="name">이름</label>
-											<input type="text" name="name" class="form-control" id="name">
+											<label for="name">이름 * </label>
+											<input type="text" name="name" class="form-control" id="name" required>
 										</div>
 									</div>
 									<div class="col-sm-6">
@@ -111,7 +111,7 @@ class="hold-transition sidebar-mini layout-fixed"
 							</div>
 							<div class="card-footer text-right">
 								* 은 필수 입력사항입니다. 
-								<button type="button" onclick="location.href='/admin/settings/member'" class="btn btn-info">목록</button>
+								<button type="button" onclick="location.href='/admin/users/users'" class="btn btn-info">목록</button>
 								&nbsp;
 								<button type="submit" class="btn btn-primary">등록</button>
 							</div>
@@ -138,7 +138,7 @@ class="hold-transition sidebar-mini layout-fixed"
 <script>
 @include('errors.permission')
 function check_id() {
-	axios.post('/admin/ajax/adminIdCheck', {
+	axios.post('/admin/ajax/userIdCheck', {
 		user_id: document.getElementsByName('user_id')[0].value
 	}).then((response) => {
 		if(response.data == 'enable') {
@@ -154,7 +154,7 @@ function check_id() {
 	});
 }
 
-function create_admin(form) {
+function create_user(form) {
 	if(form.user_id.value == '') {
 		document.getElementById('id_status').innerHTML = '아이디를 입력 해 주세요.';
 		document.getElementsByName('enable_id')[0].value = 'disable';

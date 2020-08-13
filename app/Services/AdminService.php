@@ -53,11 +53,13 @@ class AdminService
 	
 	function getAdminList(array $parameters)
 	{
-		$result = Admin::where('rank', '>', 0);
+		$result = Admin::where('admin.rank', '>', 0);
+		$result = $result->leftjoin('admin_rank', 'admin_rank.rank', '=', 'admin.rank');
+		$result = $result->select('id', 'admin_rank.name as rank', 'user_id', 'admin.name as name', 'email', 'contact');
 		
 		$result = $result->where(function($query) use($parameters) {
 			$query->where('user_id', 'like', '%' . $parameters['search']['value'] . '%')
-					->orWhere('name', 'like', '%' . $parameters['search']['value'] . '%')
+					->orWhere('admin.name', 'like', '%' . $parameters['search']['value'] . '%')
 					->orWhere('email', 'like', '%' . $parameters['search']['value'] . '%')
 					->orWhere('contact', 'like', '%' . $parameters['search']['value'] . '%');
 		});

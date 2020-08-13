@@ -27,6 +27,11 @@ class UserRankService
 		return UserRank::insert($data);
 	}
 	
+	function get()
+	{
+		return UserRank::where('rank', '>', 0)->orderBy('rank', 'asc')->get();
+	}
+	
 	function getList(int $page, int $limit)
 	{
 		return UserRank::where('rank', '>', 0)->skip(($page - 1 * $limit))->take($limit)->orderBy('rank', 'asc')->get();

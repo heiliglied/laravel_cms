@@ -97,7 +97,12 @@ let table = $("#permission_list").DataTable(
 			}
 		},
 		'columns': [
-			{'data': 'id'},
+			{
+				'data': 'id',
+				'render': function(data, type, row, meta) {
+					return meta.row + meta.settings._iDisplayStart + 1;
+				}
+			},
 			{'data': 'rank'},
 			{'data': 'uri'},
 			{

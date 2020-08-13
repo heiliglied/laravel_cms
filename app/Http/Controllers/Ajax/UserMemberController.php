@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Ajax;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\Services\AdminService;
+use App\Services\UserService;
 
-class AdminMemberController extends Controller
+class UserMemberController extends Controller
 {
     public function __construct() {}
 	
@@ -17,15 +17,15 @@ class AdminMemberController extends Controller
 			return 'id_null';
 		}
 		
-		$adminService = AdminService::getInstance();
-		if($adminService->dupilcate($request->user_id) == 'duplicate') {
+		$userService = UserService::getInstance();
+		if($userService->dupilcate($request->user_id) == 'duplicate') {
 			return "duplicate";
 		} else {
 			return "enable";
 		}
 	}
 	
-	protected function adminList(Request $request)
+	protected function userList(Request $request)
 	{
 		$parameters = [
 			'skip' => $request->start,
@@ -39,23 +39,23 @@ class AdminMemberController extends Controller
 				'value' => $request->search['value'],
 			],
 		];
-		$adminService = AdminService::getInstance();
+		$userService = UserService::getInstance();
 		
 		$return = [
-			"recordsTotal" => $adminService->adminTotalCount(),
-			"recordsFiltered" => $adminService->getAdminFilteredCount($parameters),
-			"data" => $adminService->getAdminList($parameters),
+			"recordsTotal" => $userService->userTotalCount(),
+			"recordsFiltered" => $userService->getUserFilteredCount($parameters),
+			"data" => $userService->getUserList($parameters),
 		];
 		
 		return $return;
 	}
 	
-	protected function adminDelete(Request $request)
+	protected function userExcept(Request $request)
 	{
-		$adminService = AdminService::getInstance();
+		$userService = UserService::getInstance();
 		
 		try {
-			$adminService->adminDelete((int)$request->id);
+			$userService->userExcept((int)$request->id);
 		} catch(\Exception $e) {
 			return 'error';
 		}

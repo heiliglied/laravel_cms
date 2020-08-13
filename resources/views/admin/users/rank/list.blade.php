@@ -146,6 +146,7 @@ class="hold-transition sidebar-mini layout-fixed"
 <script src="/plugin/adminlte/dist/js/adminlte.min.js"></script>
 <script>
 @include('errors.permission')
+@include('errors.userNull')
 const rank = new Vue({
 	el: "#rank_body",
 	delimiters: ['[[', ']]'],
