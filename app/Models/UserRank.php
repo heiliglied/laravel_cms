@@ -10,6 +10,6 @@ class UserRank extends Model
 	public $timestamps = false;
 	
 	protected $fillable = [
-        'rank', 'name',
+        'rank', 'name', 'default',
     ];
 }

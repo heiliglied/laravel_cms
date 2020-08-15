@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Services\UserRankService;
 use App\Traits\Pagination;
+use DB;
 
 class UserRankController extends Controller
 {
@@ -46,8 +47,17 @@ class UserRankController extends Controller
 	{
 		$userRankService = UserRankService::getInstance();
 		
+		$datas = [
+			'rank' => $request->input('rank'), 
+			'name' => $request->input('name')
+		];
+		
+		if($userRankService->getCount() < 1) {
+			$datas['default'] = 'Y';
+		}
+		
 		try {
-			$userRankService->createRank(['rank' => $request->input('rank'), 'name' => $request->input('name')]);
+			$userRankService->createRank($datas);
 		} catch(\Exception $e) {
 			if(stripos($e->getMessage(), 'Duplicate') !== false) {
 				return 'duplicate';
@@ -61,7 +71,12 @@ class UserRankController extends Controller
 	
 	protected function delete(Request $request)
 	{
-		$userRankService = UserRankService::getInstance();
+		$userRankService = UserRankService::getInstance();		
+		$rank_data = $userRankService->getOneRow('rank', $request->rank);
+		
+		if($rank_data->default != '' || $rank_data->default != null) {
+			return 'default';
+		}
 		
 		try {
 			$userRankService->deleteRank((int)$request->rank);
@@ -79,7 +94,26 @@ class UserRankController extends Controller
 		try {
 			$userRankService->updateRank((int)$request->rank, (string)$request->name);
 		} catch(\Exception $e) {
-			return $e->getMessage();
+			//return $e->getMessage();
+			return 'error';
+		}
+		
+		return 'success';
+	}
+	
+	protected function setDefault(Request $request)
+	{
+		$userRankService = UserRankService::getInstance();
+		
+		DB::beginTransaction();
+		
+		try {
+			$userRankService->advencedUpdate('rank', '>', '0', ['default' => '']);
+			$userRankService->changeDefault($request->rank);
+			DB::commit();
+		} catch(\Exception $e) {
+			DB::rollback();
+			//return $e->getMessage();
 			return 'error';
 		}
 		

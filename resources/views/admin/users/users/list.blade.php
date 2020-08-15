@@ -7,11 +7,7 @@ Admin
 @section('heads')
 <link rel="stylesheet" type="text/css" href="/mix/css/app.css" />
 <link rel="stylesheet" type="text/css" href="/plugin/adminlte/dist/css/adminlte.min.css" />
-<style>
-[v-cloak] {
-	display: none;
-}
-</style>
+<link rel="stylesheet" type="text/css" href="/mix/css/dataTables.bootstrap4.min.css" />
 @endsection
 
 @section('body_class')
@@ -67,7 +63,6 @@ class="hold-transition sidebar-mini layout-fixed"
 							</div>
 							<div class="card-footer text-right">
 								<button type="button" onclick="location.href='/admin/users/users/write'" class="btn btn-info">신규등록</button>
-							</div>
 							</div>
 						</div>
 					</div>

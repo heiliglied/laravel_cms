@@ -62,7 +62,6 @@ class="hold-transition sidebar-mini layout-fixed"
 							<div class="card-footer text-right">
 								<button type="button" onclick="location.href='/admin/settings/member/write'" class="btn btn-info">신규등록</button>
 							</div>
-							</div>
 						</div>
 					</div>
 				</div>

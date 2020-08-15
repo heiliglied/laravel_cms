@@ -57,7 +57,8 @@ class="hold-transition sidebar-mini layout-fixed"
 										<tr>
 											<th style="width: 60px">등급</th>
 											<th>등급명</th>
-											<th style="width: 10vw">Action</th>
+											<th style="width: 80px;">기본값</th>
+											<th style="width: 18vw">Action</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -65,6 +66,11 @@ class="hold-transition sidebar-mini layout-fixed"
 											<td align="center">[[ items.rank ]]</td>
 											<td>[[ items.name ]]</td>
 											<td align="center">
+												<input type="checkbox" name="default" value="Y" :checked="items.default == 'Y'">
+											</td>
+											<td align="center">
+												<button type="button" class="btn btn-info btn-sm" style="cursor: pointer" v-on:click="changeConfirm(items.rank)">기본값 설정</button>
+												&nbsp;
 												<button type="button" class="btn btn-primary btn-sm" style="cursor: pointer" v-on:click="rankModify(items.rank, items.name)">수정</button>
 												&nbsp;
 												<button type="button" class="btn btn-danger btn-sm" style="cursor: pointer" v-on:click="deleteConfirm(items.rank)">삭제</button>
@@ -203,6 +209,7 @@ const rank = new Vue({
 			}
 		},
 		deleteConfirm: (key) => {
+			document.getElementById('confirm_modal').setAttribute('data-param', 'delete');
 			this.rank = key;
 			$("#confirm_modal").modal('show');
 		},
@@ -214,7 +221,12 @@ const rank = new Vue({
 				}
 			}).then((response)=>{
 				if(response.data != 'success') {
-					toastr.error('오류가 발생하였습니다.');
+					if(response.data == 'default') {
+						toastr.error('기본값은 삭제할 수 없습니다.');
+					} else {
+						toastr.error('오류가 발생하였습니다.');
+					}
+					
 					return false;
 				}
 				rank.getRankList(1);
@@ -224,13 +236,17 @@ const rank = new Vue({
 			rank.write_mode = 'update';
 			document.getElementsByName('rank')[0].value = key;
 			document.getElementsByName('name')[0].value = name;
-			document.getElementsByName('rank')[0].setAttribute('readonly', 'readonly');
 			
+			var op = document.getElementsByName("rank")[0].getElementsByTagName("option");
+			for (var i = 0; i < op.length; i++) {
+			// lowercase comparison for case-insensitivity
+				(op[i].value.toLowerCase() != key) ? op[i].disabled = true  : op[i].disabled = false ;
+			}
 		},
 		cancel: () => {
 			rank.write_mode = 'insert';
 			document.getElementsByName('name')[0].value = '';
-			document.getElementsByName('rank')[0].removeAttribute('readonly');
+			rank.rankRelease();
 		},
 		update: () => {
 			let key = document.getElementsByName('rank')[0].value;
@@ -248,17 +264,51 @@ const rank = new Vue({
 				}
 				
 				rank.write_mode = 'insert';
-				document.getElementsByName('rank')[0].removeAttribute('readonly');
+				rank.rankRelease();
 				document.getElementsByName('name')[0].value = '';
 				rank.getRankList(1);
 			});
+		},
+		rankRelease: () => {
+			var op = document.getElementsByName("rank")[0].getElementsByTagName("option");
+			for (var i = 0; i < op.length; i++) {
+				op[i].disabled = false;
+			}
+		},
+		changeConfirm: (key) => {
+			document.getElementById('confirm_modal').setAttribute('data-param', 'change');
+			document.getElementById('confirm_modal').getElementsByClassName('modal-body')[0].getElementsByTagName('p')[0].innerHTML = '기본값을 변경하시겠습니까?';
+			this.rank = key;
+			$("#confirm_modal").modal('show');
+		},
+		changeDefault: () => {
+			axios.patch('/admin/ajax/userRankSetDefault', {
+				rank: this.rank,
+			}).then((response)=>{
+				let return_message = response.data;
+				
+				if(return_message == 'error') {
+					toastr.error('오류가 발생하였습니다.');
+					return false;
+				}
+				rank.getRankList(1);
+			});	
 		}
 	},
 });
 
 function confirmed() {
-	rank.rankDelete();
+	if(document.getElementById('confirm_modal').getAttribute('data-param') == 'delete') {
+		rank.rankDelete();
+	} else {
+		rank.changeDefault();
+	}
+	
 	$("#confirm_modal").modal('hide');
+}
+
+function canceled() {
+	
 }
 </script>
 @endsection

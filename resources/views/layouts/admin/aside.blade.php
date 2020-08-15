@@ -14,7 +14,7 @@
 					<img src="" class="img-circle elevation-2" alt="User Image">
 				</div>
 				<div class="info">
-					<a href="#" class="d-block">Flame For Fortune</a>
+					<a href="#" class="d-block">{{ Auth::user()->name }}</a>
 				</div>
 			</div>
 
@@ -61,6 +61,12 @@
 							</p>
 						</a>
 						<ul class="nav nav-treeview">
+							<li class="nav-item">
+								<a href="/admin/settings/site" class="nav-link @if($menu['active'] == 'site_setting') active @endif">
+									<i class="fas fa-layer-group nav-icon"></i>
+									<p>사이트 설정</p>
+								</a>
+							</li>
 							<li class="nav-item">
 								<a href="/admin/settings/rank" class="nav-link @if($menu['active'] == 'admin_rank') active @endif">
 									<i class="fas fa-layer-group nav-icon"></i>

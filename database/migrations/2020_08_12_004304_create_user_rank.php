@@ -16,6 +16,7 @@ class CreateUserRank extends Migration
         Schema::create('user_rank', function (Blueprint $table) {
             $table->unsignedTinyInteger('rank')->unique();
             $table->string('name', 64);
+			$table->char('default', 1)->nullable();
         });
     }
 

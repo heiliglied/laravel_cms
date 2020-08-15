@@ -6,8 +6,11 @@ use Closure;
 use Auth;
 use App\Models\AdminPermission;
 
+use App\Traits\Settings;
+
 class AdminPermissionMiddleware
 {
+	use Settings;	
     /**
      * Handle an incoming request.
      *
@@ -21,13 +24,22 @@ class AdminPermissionMiddleware
 		$permission = AdminPermission::where('uri', 'like', '%' . $redirect_path . '%')->first();
 		
 		//$permission = AdminPermission::where('uri', $request->path())->first();
-		
+
 		if($permission != null) {
-			if(Auth::user()->rank > $permission->rank) {
-				return redirect()->back()->with('permission_denied', '접근 권한이 없습니다.');
+			
+			$settings = $this->getSettings();
+
+			if($settings['adminRankOrder'] == 'asc') {
+				if(Auth::user()->rank > $permission->rank) {
+					return redirect()->back()->with('permission_denied', '접근 권한이 없습니다.');
+				}
+			} else {
+				if(Auth::user()->rank < $permission->rank) {
+					return redirect()->back()->with('permission_denied', '접근 권한이 없습니다.');
+				}
 			}
 		}
-				
+
         return $next($request);
     }
 }

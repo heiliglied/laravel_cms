@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 Route::group(['prefix' => 'admin'], function(){
@@ -31,6 +31,8 @@ Route::group(['prefix' => 'admin'], function(){
 		Route::get('/', 'Admin\IndexController@index');
 		
 		Route::group(['prefix' => 'settings'], function(){
+			Route::get('/site', 'Admin\Settings\SiteSettingController@view');
+			Route::post('/setSettings', 'Admin\Settings\SiteSettingController@set');
 			Route::get('/rank', 'Admin\Settings\RankController@list');
 			Route::get('/member', 'Admin\Settings\MemberController@adminList');
 			Route::get('/member/write', 'Admin\Settings\MemberController@adminWrite');
@@ -72,6 +74,8 @@ Route::group(['prefix' => 'admin'], function(){
 			Route::post('/userRankInsert', 'Ajax\UserRankController@insert');
 			Route::delete('/userRankDelete', 'Ajax\UserRankController@delete');
 			Route::patch('/userRankUpdate', 'Ajax\UserRankController@update');
+			Route::patch('/userRankSetDefault', 'Ajax\UserRankController@setDefault');
+			
 			
 			Route::post('/userIdCheck', 'Ajax\UserMemberController@idCheck');
 			Route::get('/userList', 'Ajax\UserMemberController@userList');
@@ -80,4 +84,4 @@ Route::group(['prefix' => 'admin'], function(){
 	});
 });
 
-Auth::routes();
+//Auth::routes();

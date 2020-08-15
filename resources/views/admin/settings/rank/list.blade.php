@@ -223,13 +223,22 @@ const rank = new Vue({
 			rank.write_mode = 'update';
 			document.getElementsByName('rank')[0].value = key;
 			document.getElementsByName('name')[0].value = name;
-			document.getElementsByName('rank')[0].setAttribute('readonly', 'readonly');
-			
+			var op = document.getElementsByName("rank")[0].getElementsByTagName("option");
+			for (var i = 0; i < op.length; i++) {
+			// lowercase comparison for case-insensitivity
+				(op[i].value.toLowerCase() != key) ? op[i].disabled = true  : op[i].disabled = false ;
+			}
 		},
 		cancel: () => {
 			rank.write_mode = 'insert';
 			document.getElementsByName('name')[0].value = '';
-			document.getElementsByName('rank')[0].removeAttribute('readonly');
+			rank.rankRelease();
+		},
+		rankRelease: () => {
+			var op = document.getElementsByName("rank")[0].getElementsByTagName("option");
+			for (var i = 0; i < op.length; i++) {
+				op[i].disabled = false;
+			}
 		},
 		update: () => {
 			let key = document.getElementsByName('rank')[0].value;
@@ -247,8 +256,8 @@ const rank = new Vue({
 				}
 				
 				rank.write_mode = 'insert';
-				document.getElementsByName('rank')[0].removeAttribute('readonly');
 				document.getElementsByName('name')[0].value = '';
+				rank.rankRelease();
 				rank.getRankList(1);
 			});
 		}
