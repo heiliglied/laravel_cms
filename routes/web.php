@@ -19,67 +19,67 @@ Route::get('/', function () {
 
 Route::group(['prefix' => 'admin'], function(){
 	//비로그인 상태에서 접근.
-	Route::get('login', 'Admin\Auth\LoginController@login')->name('adminLogin');
-	Route::get('logout', 'Admin\Auth\LoginController@logout')->name('adminLogout');
-	Route::post('signIn', 'Admin\Auth\LoginController@signIn')->name('adminSignIn');
+	Route::get('login', [App\Http\Controllers\Admin\Auth\LoginController::class, 'login'])->name('adminLogin');
+	Route::get('logout', [App\Http\Controllers\Admin\Auth\LoginController::class, 'logout'])->name('adminLogout');
+	Route::post('signIn', [App\Http\Controllers\Admin\Auth\LoginController::class, 'signIn'])->name('adminSignIn');
 	
-	Route::get('regist', 'Admin\Auth\RegisterController@regist')->name('adminRegist');
-	Route::post('signUp', 'Admin\Auth\RegisterController@signUp')->name('adminSignUp');
+	Route::get('regist', [App\Http\Controllers\Admin\Auth\RegisterController::class, 'regist'])->name('adminRegist');
+	Route::post('signUp', [App\Http\Controllers\Admin\Auth\RegisterController::class, 'signUp'])->name('adminSignUp');
 	
 	//인증 미들웨어 확인
 	Route::group(['middleware' => ['auth:admin', 'admin.permission']], function() {
-		Route::get('/', 'Admin\IndexController@index');
+		Route::get('/', [App\Http\Controllers\Admin\IndexController::class, 'index']);
 		
 		Route::group(['prefix' => 'settings'], function(){
-			Route::get('/site', 'Admin\Settings\SiteSettingController@view');
-			Route::post('/setSettings', 'Admin\Settings\SiteSettingController@set');
-			Route::get('/rank', 'Admin\Settings\RankController@list');
-			Route::get('/member', 'Admin\Settings\MemberController@adminList');
-			Route::get('/member/write', 'Admin\Settings\MemberController@adminWrite');
-			Route::get('/member/modify/{id}', 'Admin\Settings\MemberController@adminModify');
-			Route::post('/member/create', 'Admin\Settings\MemberController@adminCreate');
-			Route::patch('/member/update', 'Admin\Settings\MemberController@adminUpdate');
-			Route::get('/permission', 'Admin\Settings\PermissionController@list');
-			Route::get('/permission/write', 'Admin\Settings\PermissionController@write');
-			Route::post('/permission/create', 'Admin\Settings\PermissionController@create');
-			Route::get('/permission/modify/{id}', 'Admin\Settings\PermissionController@modify');
-			Route::patch('/permission/update', 'Admin\Settings\PermissionController@update');
+			Route::get('/site', [App\Http\Controllers\Admin\Settings\SiteSettingController::class, 'view']);
+			Route::post('/setSettings', [App\Http\Controllers\Admin\Settings\SiteSettingController::class, 'set']);
+			Route::get('/rank', [App\Http\Controllers\Admin\Settings\RankController::class, 'list']);
+			Route::get('/member', [App\Http\Controllers\Admin\Settings\MemberController::class, 'adminList']);
+			Route::get('/member/write', [App\Http\Controllers\Admin\Settings\MemberController::class, 'adminWrite']);
+			Route::get('/member/modify/{id}', [App\Http\Controllers\Admin\Settings\MemberController::class, 'adminModify']);
+			Route::post('/member/create', [App\Http\Controllers\Admin\Settings\MemberController::class, 'adminCreate']);
+			Route::patch('/member/update', [App\Http\Controllers\Admin\Settings\MemberController::class, 'adminUpdate']);
+			Route::get('/permission', [App\Http\Controllers\Admin\Settings\PermissionController::class, 'list']);
+			Route::get('/permission/write', [App\Http\Controllers\Admin\Settings\PermissionController::class, 'write']);
+			Route::post('/permission/create', [App\Http\Controllers\Admin\Settings\PermissionController::class, 'create']);
+			Route::get('/permission/modify/{id}', [App\Http\Controllers\Admin\Settings\PermissionController::class, 'modify']);
+			Route::patch('/permission/update', [App\Http\Controllers\Admin\Settings\PermissionController::class, 'update']);
 		});
 		
 		Route::group(['prefix' => 'users'], function(){
-			Route::get('/rank', 'Admin\Users\RankController@list');
-			Route::get('/users', 'Admin\Users\UserController@list');
-			Route::get('/users/write', 'Admin\Users\UserController@userWrite');
-			Route::get('/users/modify/{id}', 'Admin\Users\UserController@userModify');
+			Route::get('/rank', [App\Http\Controllers\Admin\Users\RankController::class, 'list']);
+			Route::get('/users', [App\Http\Controllers\Admin\Users\UserController::class, 'list']);
+			Route::get('/users/write', [App\Http\Controllers\Admin\Users\UserController::class, 'userWrite']);
+			Route::get('/users/modify/{id}', [App\Http\Controllers\Admin\Users\UserController::class, 'userModify']);
 			
-			Route::post('/users/create', 'Admin\Users\UserController@userCreate');
-			Route::patch('/users/update', 'Admin\Users\UserController@userUpdate');
-			Route::delete('/userDelete/', 'Admin\Users\UserController@userDelete');
+			Route::post('/users/create', [App\Http\Controllers\Admin\Users\UserController::class, 'userCreate']);
+			Route::patch('/users/update', [App\Http\Controllers\Admin\Users\UserController::class, 'userUpdate']);
+			Route::delete('/userDelete/', [App\Http\Controllers\Admin\Users\UserController::class, 'userDelete']);
 		});
 		
 		Route::group(['prefix' => 'ajax'], function(){
-			Route::get('/adminRankList', 'Ajax\AdminRankController@getList');
-			Route::post('/adminRankInsert', 'Ajax\AdminRankController@insert');
-			Route::delete('/adminRankDelete', 'Ajax\AdminRankController@delete');
-			Route::patch('/adminRankUpdate', 'Ajax\AdminRankController@update');
+			Route::get('/adminRankList', [App\Http\Controllers\Ajax\AdminRankController::class, 'getList']);
+			Route::post('/adminRankInsert', [App\Http\Controllers\Ajax\AdminRankController::class, 'insert']);
+			Route::delete('/adminRankDelete', [App\Http\Controllers\Ajax\AdminRankController::class, 'delete']);
+			Route::patch('/adminRankUpdate', [App\Http\Controllers\Ajax\AdminRankController::class, 'update']);
 			
-			Route::post('/adminIdCheck', 'Ajax\AdminMemberController@idCheck');
-			Route::get('/adminList', 'Ajax\AdminMemberController@adminList');
-			Route::delete('/adminDelete/{id}', 'Ajax\AdminMemberController@adminDelete');
+			Route::post('/adminIdCheck', [App\Http\Controllers\Ajax\AdminMemberController::class, 'idCheck']);
+			Route::get('/adminList', [App\Http\Controllers\Ajax\AdminMemberController::class, 'adminList']);
+			Route::delete('/adminDelete/{id}', [App\Http\Controllers\Ajax\AdminMemberController::class, 'adminDelete']);
 			
-			Route::get('/permissionList', 'Ajax\AdminPermissionController@permissionList');
-			Route::delete('/permissionDelete/{id}', 'Ajax\AdminPermissionController@permissionDelete');
+			Route::get('/permissionList', [App\Http\Controllers\Ajax\AdminPermissionController::class, 'permissionList']);
+			Route::delete('/permissionDelete/{id}', [App\Http\Controllers\Ajax\AdminPermissionController::class, 'permissionDelete']);
 			
-			Route::get('/userRankList', 'Ajax\UserRankController@getList');
-			Route::post('/userRankInsert', 'Ajax\UserRankController@insert');
-			Route::delete('/userRankDelete', 'Ajax\UserRankController@delete');
-			Route::patch('/userRankUpdate', 'Ajax\UserRankController@update');
-			Route::patch('/userRankSetDefault', 'Ajax\UserRankController@setDefault');
+			Route::get('/userRankList', [App\Http\Controllers\Ajax\UserRankController::class, 'getList']);
+			Route::post('/userRankInsert', [App\Http\Controllers\Ajax\UserRankController::class, 'insert']);
+			Route::delete('/userRankDelete', [App\Http\Controllers\Ajax\UserRankController::class, 'delete']);
+			Route::patch('/userRankUpdate', [App\Http\Controllers\Ajax\UserRankController::class, 'update']);
+			Route::patch('/userRankSetDefault', [App\Http\Controllers\Ajax\UserRankController::class, 'setDefault']);
 			
 			
-			Route::post('/userIdCheck', 'Ajax\UserMemberController@idCheck');
-			Route::get('/userList', 'Ajax\UserMemberController@userList');
-			Route::patch('/userExcept/{id}', 'Ajax\UserMemberController@userExcept');
+			Route::post('/userIdCheck', [App\Http\Controllers\Ajax\UserMemberController::class, 'idCheck']);
+			Route::get('/userList', [App\Http\Controllers\Ajax\UserMemberController::class, 'userList']);
+			Route::patch('/userExcept/{id}', [App\Http\Controllers\Ajax\UserMemberController::class, 'userExcept']);
 		});
 	});
 });
